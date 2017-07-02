@@ -54,7 +54,6 @@ public:
     bool deleteSeries(int seriesID);
     bool deleteAllSeries();
 
-    QList<QMap<QString, QString> > getSeries();
     QList<QMap<QString, QString> > getEpisodes(int seriesID, int seasonNumber);
     QMap<QString, QString> getNextEpisodeDetails(int seriesID);
     QString getStatus(int seriesID);
@@ -86,9 +85,11 @@ public:
 
 signals:
     void populateTodayModel(QList<QMap<QString, QString> > allSeries);
+    void populateBannerList(QList<QMap<QString, QString> > allSeries);
 
 public slots:
     void getStartPageSeries();
+    void getSeries();
 
 private:
     QSqlDatabase m_db;

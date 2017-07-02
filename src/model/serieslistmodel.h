@@ -39,7 +39,6 @@ public:
     explicit SeriesListModel(QObject *parent = 0, DatabaseManager *dbmanager = 0, XMLReader* reader = 0);
     ~SeriesListModel();
 
-    Q_INVOKABLE void populateBannerList();
     Q_INVOKABLE void selectSeries(int index);
 
     QQmlListProperty<SeriesData> getSeriesList();
@@ -86,8 +85,10 @@ signals:
     void nextEpisodeNumberChanged();
     void nextEpisodeSeasonNumberChanged();
     void daysToNextEpisodeChanged();
+    void getSeries();
 
 public slots:
+    void populateBannerList(QList<QMap<QString, QString> > allSeries);
     void updateFetchFinished();
 
 private:

@@ -145,12 +145,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodeOverviewPage.qml" line="109"/>
+        <location filename="../src/qml/pages/EpisodeOverviewPage.qml" line="110"/>
         <source>Writer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodeOverviewPage.qml" line="118"/>
+        <location filename="../src/qml/pages/EpisodeOverviewPage.qml" line="119"/>
         <source>Guest Stars</source>
         <translation type="unfinished"></translation>
     </message>

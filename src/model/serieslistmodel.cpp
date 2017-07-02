@@ -14,7 +14,10 @@ SeriesListModel::SeriesListModel(QObject *parent, DatabaseManager* dbmanager, XM
             this,
             SLOT(updateFetchFinished()));
 
-    populateBannerList();
+    connect(this, SIGNAL(getSeries()), m_dbmanager, SLOT(getSeries()));
+    connect(m_dbmanager, SIGNAL(populateBannerList(MapList)), this, SLOT(populateBannerList(MapList)));
+
+    emit getSeries();
 
     m_loading = false;
 }
@@ -40,7 +43,7 @@ void SeriesListModel::updateFetchFinished()
     }
 
     setLoading(false);
-    populateBannerList();
+    emit getSeries();
 }
 
 QQmlListProperty<SeriesData> SeriesListModel::getSeriesList()
@@ -69,12 +72,11 @@ void SeriesListModel::seriesListClear(QQmlListProperty<SeriesData>* prop)
     qobject_cast<SeriesListModel*>(prop->object)->m_seriesListModel.clear();
 }
 
-void SeriesListModel::populateBannerList()
+void SeriesListModel::populateBannerList(QList<QMap<QString, QString> > allSeries)
 {
     m_seriesListModel.clear();
     emit seriesListChanged();
 
-    auto allSeries = m_dbmanager->getSeries();
     for (auto series : allSeries) {
         auto id = series["id"];
         auto nextEpisodeDetails = m_dbmanager->getNextEpisodeDetails(id.toInt());
@@ -190,8 +192,8 @@ void SeriesListModel::deleteSeries(int seriesID)
 {
     setLoading(true);
     if (m_dbmanager->deleteSeries(seriesID)) {
-        populateBannerList();
-        emit updateModels();
+        emit getSeries();
+//        emit updateModels();
     }
     setLoading(false);
 }
@@ -214,18 +216,17 @@ void SeriesListModel::updateAllSeries(bool updateEndedSeries)
     m_episodes.clear();
     m_banners.clear();
 
-    auto allSeries = m_dbmanager->getSeries();
-    foreach (auto series, allSeries) {
-        if (!updateEndedSeries) {
-            if (series["status"] != "Ended") {
-               m_seriesIds.append(series["id"]);
-            }
-        } else {
-             m_seriesIds.append(series["id"]);
-        }
-    }
+    // TODO: make a function that gets only ids and takes the ended flag also in
+//    auto allSeries = m_dbmanager->getSeries();
+//    for (auto series : allSeries) {
+//        if (!updateEndedSeries) {
+//            if (series["status"] != "Ended") {
+//               m_seriesIds.append(series["id"]);
+//            }
+//        } else {
+//             m_seriesIds.append(series["id"]);
+//        }
+//    }
 
-    qDebug() << "m_seriesIds" << m_seriesIds;
-
-    updateSeries();
+//    updateSeries();
 }

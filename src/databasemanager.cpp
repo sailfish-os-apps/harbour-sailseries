@@ -484,7 +484,7 @@ bool DatabaseManager::insertBanners(QList<QMap<QString, QString> > banners, int 
     return ret;
 }
 
-QList<QMap<QString, QString> > DatabaseManager::getSeries()
+void DatabaseManager::getSeries()
 {
     QList<QMap<QString, QString> > allSeries;
     
@@ -545,7 +545,7 @@ QList<QMap<QString, QString> > DatabaseManager::getSeries()
             }
         }
     }
-    return allSeries;
+    emit populateBannerList(allSeries);
 }
 
 void DatabaseManager::getStartPageSeries()
