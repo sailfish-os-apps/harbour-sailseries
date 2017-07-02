@@ -2,12 +2,15 @@
 #include "qcoreapplication.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) :
-    QObject(parent) {}
+    QObject(parent)
+{
+    this->setUpDB();
+}
 
 DatabaseManager::~DatabaseManager()
 {
     qDebug() << "destructing dbmanager";
-    close();   
+    this->close();
 }
 
 void DatabaseManager::setUpDB()
@@ -22,13 +25,13 @@ void DatabaseManager::setUpDB()
         } else {
             
             QSqlQuery query(m_db);
-            query.exec("SELECT name,version FROM information;");
+            query.exec("SELECT name, version FROM information;");
             if (query.isSelect()) {
                 while (query.next()) {
-                    QString name = query.value(0).toString();
-                    double version = query.value(1).toDouble();
+                    auto name = query.value(0).toString();
+                    auto version = query.value(1).toDouble();
                     qDebug() << "App name: " << name;
-                    qDebug() << "Database version : " << version;
+                    qDebug() << "Database version: " << version;
                     
                     if (version == 1.0) {
                         qDebug() << "Needs first update. Add the Banner table to db";
@@ -44,8 +47,8 @@ void DatabaseManager::setUpDB()
 
 bool DatabaseManager::openDB()
 {
-    QString dbname = "sailSeries.db.sqlite";
-    QString dbpath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + dbname;
+    auto dbname = "sailSeries.db.sqlite";
+    auto dbpath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + dbname;
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     
     if (!dir.exists()) {
@@ -545,7 +548,7 @@ QList<QMap<QString, QString> > DatabaseManager::getSeries()
     return allSeries;
 }
 
-QList<QMap<QString, QString> > DatabaseManager::getStartPageSeries()
+void DatabaseManager::getStartPageSeries()
 {
     auto date = QDateTime::currentDateTime().date();
     auto locale  = QLocale(QLocale::English);
@@ -636,7 +639,7 @@ QList<QMap<QString, QString> > DatabaseManager::getStartPageSeries()
             }
         }
     }
-    return series;
+    emit populateTodayModel(series);
 }
 
 QList<QMap<QString, QString> > DatabaseManager::getEpisodes(int seriesID, int seasonNumber)

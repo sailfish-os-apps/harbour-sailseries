@@ -21,7 +21,7 @@ SeriesListModel::SeriesListModel(QObject *parent, DatabaseManager* dbmanager, XM
 
 SeriesListModel::~SeriesListModel()
 {
-    foreach(auto series, m_seriesListModel) {
+    for (auto series : m_seriesListModel) {
         delete series;
         series = 0;
     }

@@ -2,6 +2,8 @@
 #define ENGINE_H
 
 #include <QObject>
+#include <QThread>
+
 #include "xmlreader.h"
 #include "databasemanager.h"
 #include "statistics.h"
@@ -46,6 +48,7 @@ signals:
     void episodeListModelChanged();
     void seasonListModelChanged();
     void loadingChanged();
+    void setUpDb();
 
 public slots:
     void readyToUpdateModels();

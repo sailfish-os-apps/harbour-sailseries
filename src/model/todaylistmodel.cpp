@@ -6,12 +6,18 @@ TodayListModel::TodayListModel(QObject *parent, DatabaseManager *dbmanager, XMLR
     m_dbmanager = dbmanager;
     m_reader = reader;
 
-    populateTodayModel();
+    connect(this, SIGNAL(getStartPageSeries()), m_dbmanager, SLOT(getStartPageSeries()));
+    connect(m_dbmanager,
+            SIGNAL(populateTodayModel(MapList)),
+            this,
+            SLOT(populateTodayModel(MapList)));
+
+    emit getStartPageSeries();
 }
 
 TodayListModel::~TodayListModel()
 {
-    foreach(auto series, m_todayListModel) {
+    for (auto series : m_todayListModel) {
         delete series;
         series = 0;
     }
@@ -44,12 +50,11 @@ void TodayListModel::todayListClear(QQmlListProperty<SeriesData>* prop)
     qobject_cast<TodayListModel*>(prop->object)->m_todayListModel.clear();
 }
 
-void TodayListModel::populateTodayModel()
+void TodayListModel::populateTodayModel(QList<QMap<QString, QString> > allSeries)
 {
     m_todayListModel.clear();
     emit todayModelChanged();
 
-    auto allSeries = m_dbmanager->getStartPageSeries();
     for (auto series : allSeries) {
         auto seriesData = new SeriesData(this, series);
         m_todayListModel.append(seriesData);
