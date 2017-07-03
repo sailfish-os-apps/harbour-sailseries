@@ -88,11 +88,13 @@ signals:
 
     void getSeries();
     void deleteSeriesRequested(int SeriesId);
+    void storeSeriesRequested(QMap<QString, QList<QMap<QString, QString> > > seriesData);
 
 public slots:
     void populateBannerList(QList<QMap<QString, QString> > allSeries);
-    void updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > data);
+    void updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > seriesData);
     void seriesDeleted(bool success);
+    void seriesStored();
 
 private:
     XMLReader* m_reader;

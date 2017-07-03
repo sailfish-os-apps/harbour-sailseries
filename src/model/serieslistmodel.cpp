@@ -34,6 +34,16 @@ SeriesListModel::SeriesListModel(QObject *parent, DatabaseManager* dbmanager, XM
             this,
             SLOT(seriesDeleted(bool)));
 
+    connect(this,
+            SIGNAL(storeSeriesRequested(MapOfMapLists)),
+            m_dbmanager,
+            SLOT(storeSeries(MapOfMapLists)));
+
+    connect(m_dbmanager,
+            SIGNAL(seriesStored()),
+            this,
+            SLOT(seriesStored()));
+
     emit getSeries();
 
     m_loading = false;
@@ -47,16 +57,13 @@ SeriesListModel::~SeriesListModel()
     }
 }
 
-void SeriesListModel::updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > data)
+void SeriesListModel::updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > seriesData)
 {
-    m_series = data["series"];
-    m_episodes = data["episodes"];
-    m_banners = data["banners"];
+    emit storeSeriesRequested(seriesData);
+}
 
-    storeSeries();
-    storeEpisodes();
-    storeBanners();
-
+void SeriesListModel::seriesStored()
+{
     if (!m_seriesIds.isEmpty()) {
         return updateSeries();
     }

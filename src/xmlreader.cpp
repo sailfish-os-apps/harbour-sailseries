@@ -39,7 +39,6 @@ QString XMLReader::getLocale()
 void XMLReader::getLanguages()
 {
     QString url = QString(MIRRORPATH) + "/api/" + QString(APIKEY) + "/languages.xml";
-    qDebug() << "Requesting" << url;
     QUrl finalUrl(url);
     startRequest(finalUrl);
 }
@@ -51,7 +50,6 @@ void XMLReader::searchSeries(QString text)
 //    TODO: searching with locale works, but getting full record does not.
 //    QString url = QString(MIRRORPATH) + "/api/GetSeries.php?seriesname=" + text + "&language=" + locale;
     QString url = QString("%1/api/GetSeries.php?seriesname=%2").arg(QString(MIRRORPATH)).arg(text);
-    qDebug() << "Requesting" << url;
     QUrl finalUrl(url);
     startRequest(finalUrl);
 }
