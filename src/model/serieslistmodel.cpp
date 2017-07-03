@@ -133,26 +133,6 @@ void SeriesListModel::selectSeries(int index)
     emit daysToNextEpisodeChanged();
 }
 
-void SeriesListModel::storeSeries()
-{
-    if (!m_series.isEmpty()) {
-        m_dbmanager->insertSeries(m_series.first());
-    }
-}
-
-void SeriesListModel::storeEpisodes()
-{
-    m_dbmanager->insertEpisodes(m_episodes);
-}
-
-void SeriesListModel::storeBanners()
-{
-    if (!m_series.isEmpty()) {
-        int seriesId = m_series.first()["id"].toInt();
-        m_dbmanager->insertBanners(m_banners, seriesId);
-    }
-}
-
 QString SeriesListModel::getID() { return m_info->getID(); }
 
 QString SeriesListModel::getLanguage() { return m_info->getLanguage(); }
@@ -243,17 +223,6 @@ void SeriesListModel::updateAllSeries(bool updateEndedSeries)
     m_episodes.clear();
     m_banners.clear();
 
-    // TODO: make a function that gets only ids and takes the ended flag also in
-//    auto allSeries = m_dbmanager->getSeries();
-//    for (auto series : allSeries) {
-//        if (!updateEndedSeries) {
-//            if (series["status"] != "Ended") {
-//               m_seriesIds.append(series["id"]);
-//            }
-//        } else {
-//             m_seriesIds.append(series["id"]);
-//        }
-//    }
-
-//    updateSeries();
+    m_seriesIds = m_dbmanager->getSeriesIds(updateEndedSeries);
+    updateSeries();
 }

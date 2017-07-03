@@ -57,6 +57,7 @@ public:
     QMap<QString, QString> getNextEpisodeDetails(int seriesID);
     QString getStatus(int seriesID);
     QString getSeasonBanner(int seriesID, int season);
+    QStringList getSeriesIds(bool updateEndedSeries);
 
     void toggleWatched(QString episodeID);
     void markSeasonWatched(int seriesID, int season);
