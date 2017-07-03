@@ -21,7 +21,6 @@ XMLReader::~XMLReader()
 {
     delete m_nam;
     m_nam = 0;
-    qDebug() << "destructing xmlreader";
 }
 
 QString XMLReader::getLocale()
@@ -117,7 +116,7 @@ void XMLReader::replyFinished(QNetworkReply *reply)
         QXmlStreamReader xml_banners(zip->fileData("banners.xml"));
         parseXML(xml_banners);
 
-        if (m_series.size() != 0 and !getFullRecordFlag() and !getUpdateFlag()) {
+        if (m_series.size() != 0 && !getFullRecordFlag() && !getUpdateFlag()) {
             setFullRecordFlag(false);
             setUpdateFlag(false);
             emit readyToPopulateSeries();
@@ -128,7 +127,11 @@ void XMLReader::replyFinished(QNetworkReply *reply)
         } else if (getUpdateFlag()) {
             setFullRecordFlag(false);
             setUpdateFlag(false);
-            emit readyToUpdateSeries();
+            QMap<QString, QList<QMap<QString, QString> > > data;
+            data["series"] = m_series;
+            data["episodes"] = m_episodes;
+            data["banners"] = m_banners;
+            emit readyToUpdateSeries(data);
         }
 
     } else {
@@ -147,7 +150,11 @@ void XMLReader::replyFinished(QNetworkReply *reply)
         } else if (getUpdateFlag()) {
             setFullRecordFlag(false);
             setUpdateFlag(false);
-            emit readyToUpdateSeries();
+            QMap<QString, QList<QMap<QString, QString> > > data;
+            data["series"] = m_series;
+            data["episodes"] = m_episodes;
+            data["banners"] = m_banners;
+            emit readyToUpdateSeries(data);
         }
     }
 

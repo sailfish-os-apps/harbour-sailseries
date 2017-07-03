@@ -122,7 +122,6 @@ void SearchListModel::storeEpisodes()
 void SearchListModel::storeBanners()
 {
     m_banners = m_reader->getBanners();
-    // we are saving info for this series
     int seriesId = m_info->getID().toInt();
     m_dbmanager->insertBanners(m_banners, seriesId);
 }

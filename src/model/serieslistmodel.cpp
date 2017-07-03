@@ -10,12 +10,29 @@ SeriesListModel::SeriesListModel(QObject *parent, DatabaseManager* dbmanager, XM
     mode = "default";
 
     connect(m_reader,
-            SIGNAL(readyToUpdateSeries()),
+            SIGNAL(readyToUpdateSeries(MapOfMapLists)),
             this,
-            SLOT(updateFetchFinished()));
+            SLOT(updateFetchFinished(MapOfMapLists)));
 
-    connect(this, SIGNAL(getSeries()), m_dbmanager, SLOT(getSeries()));
-    connect(m_dbmanager, SIGNAL(populateBannerList(MapList)), this, SLOT(populateBannerList(MapList)));
+    connect(this,
+            SIGNAL(getSeries()),
+            m_dbmanager,
+            SLOT(getSeries()));
+
+    connect(m_dbmanager,
+            SIGNAL(populateBannerList(MapList)),
+            this,
+            SLOT(populateBannerList(MapList)));
+
+    connect(this,
+            SIGNAL(deleteSeriesRequested(int)),
+            m_dbmanager,
+            SLOT(deleteSeries(int)));
+
+    connect(m_dbmanager,
+            SIGNAL(seriesDeleted(bool)),
+            this,
+            SLOT(seriesDeleted(bool)));
 
     emit getSeries();
 
@@ -28,18 +45,20 @@ SeriesListModel::~SeriesListModel()
         delete series;
         series = 0;
     }
-    qDebug() << "destructing SeriesListModel";
 }
 
-void SeriesListModel::updateFetchFinished()
+void SeriesListModel::updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > data)
 {
+    m_series = data["series"];
+    m_episodes = data["episodes"];
+    m_banners = data["banners"];
+
     storeSeries();
     storeEpisodes();
     storeBanners();
 
     if (!m_seriesIds.isEmpty()) {
-        updateSeries();
-        return;
+        return updateSeries();
     }
 
     setLoading(false);
@@ -109,8 +128,6 @@ void SeriesListModel::selectSeries(int index)
 
 void SeriesListModel::storeSeries()
 {
-    m_series = m_reader->getSeries();
-
     if (!m_series.isEmpty()) {
         m_dbmanager->insertSeries(m_series.first());
     }
@@ -118,14 +135,11 @@ void SeriesListModel::storeSeries()
 
 void SeriesListModel::storeEpisodes()
 {
-    m_episodes = m_reader->getEpisodes();
     m_dbmanager->insertEpisodes(m_episodes);
 }
 
 void SeriesListModel::storeBanners()
 {
-    m_banners = m_reader->getBanners();
-
     if (!m_series.isEmpty()) {
         int seriesId = m_series.first()["id"].toInt();
         m_dbmanager->insertBanners(m_banners, seriesId);
@@ -188,12 +202,19 @@ void SeriesListModel::setMode(QString newmode)
     }
 }
 
-void SeriesListModel::deleteSeries(int seriesID)
+void SeriesListModel::deleteSeries(int seriesId)
 {
     setLoading(true);
-    if (m_dbmanager->deleteSeries(seriesID)) {
+    emit deleteSeriesRequested(seriesId);
+}
+
+void SeriesListModel::seriesDeleted(bool success)
+{
+    if (success) {
         emit getSeries();
-//        emit updateModels();
+        // emit updateModels(); // TODO: check
+    } else {
+        qDebug() << "series deletion failed";
     }
     setLoading(false);
 }
@@ -206,7 +227,6 @@ void SeriesListModel::updateSeries(QString seriesId)
 
     setLoading(true);
     m_reader->getFullSeriesRecord(seriesId, "update");
-
 }
 
 void SeriesListModel::updateAllSeries(bool updateEndedSeries)

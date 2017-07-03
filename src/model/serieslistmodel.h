@@ -71,7 +71,7 @@ public:
     void storeSeries();
     void storeEpisodes();
     void storeBanners();
-    Q_INVOKABLE void deleteSeries(int seriesID);
+    Q_INVOKABLE void deleteSeries(int seriesId);
     Q_INVOKABLE void updateSeries(QString seriesId = "");
     Q_INVOKABLE void updateAllSeries(bool updateEndedSeries = true);
 
@@ -85,11 +85,14 @@ signals:
     void nextEpisodeNumberChanged();
     void nextEpisodeSeasonNumberChanged();
     void daysToNextEpisodeChanged();
+
     void getSeries();
+    void deleteSeriesRequested(int SeriesId);
 
 public slots:
     void populateBannerList(QList<QMap<QString, QString> > allSeries);
-    void updateFetchFinished();
+    void updateFetchFinished(QMap<QString, QList<QMap<QString, QString> > > data);
+    void seriesDeleted(bool success);
 
 private:
     XMLReader* m_reader;

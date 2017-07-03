@@ -49,7 +49,7 @@ signals:
     void readyToPopulateSeries();
     void readyToPopulateChannels();
     void readyToStoreSeries();
-    void readyToUpdateSeries();
+    void readyToUpdateSeries(QMap<QString, QList<QMap<QString, QString> > > data);
 
 public slots:
     void replyFinished(QNetworkReply* reply);
