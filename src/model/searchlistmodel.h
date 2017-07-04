@@ -29,8 +29,6 @@ public:
     explicit SearchListModel(QObject *parent = 0, DatabaseManager* dbmanager = 0, XMLReader* xmlreader = 0 );
     ~SearchListModel();
 
-    void populateSearchModel();
-
     Q_INVOKABLE void searchSeries(QString text);
     Q_INVOKABLE void selectSeries(int index);
     Q_INVOKABLE void getFullSeriesRecord(QString id);
@@ -53,10 +51,6 @@ public:
     bool getAdded();
     void setAdded(bool cond);
 
-    void storeSeries();
-    void storeEpisodes();
-    void storeBanners();
-
 signals:
     void searchModelChanged();
     void idChanged();
@@ -73,9 +67,12 @@ signals:
     void addedChanged();
     void updateModels();
 
+    void storeSeriesRequested(QMap<QString, QList<QMap<QString, QString> > > seriesData);
+
 public slots:
-    void xmlParseFinished();
-    void getFullSeriesRecordFinished();
+    void getFullSeriesRecordFinished(QMap<QString, QList<QMap<QString, QString> > > seriesData);
+    void populateSearchModel(QMap<QString, QList<QMap<QString, QString> > > allSeries);
+    void seriesStored();
 
 private:
     XMLReader* m_reader;

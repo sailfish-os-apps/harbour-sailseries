@@ -46,9 +46,8 @@ public:
     void setFullRecordFlag(bool state);
 
 signals:
-    void readyToPopulateSeries();
-    void readyToPopulateChannels();
-    void readyToStoreSeries();
+    void readyToPopulateSeries(QMap<QString, QList<QMap<QString, QString> > > data);
+    void readyToStoreSeries(QMap<QString, QList<QMap<QString, QString> > > data);
     void readyToUpdateSeries(QMap<QString, QList<QMap<QString, QString> > > data);
 
 public slots:
