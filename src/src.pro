@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     model/seasonlistmodel.cpp \
     engine.cpp \
     settings.cpp \
-    statistics.cpp
+    statistics.cpp \
+    xmlparser.cpp
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 DEFINES += APP_BUILDNUM=\\\"$$RELEASE\\\"
@@ -67,7 +68,8 @@ HEADERS += \
     model/seasonlistmodel.h \
     engine.h \
     settings.h \
-    statistics.h
+    statistics.h \
+    xmlparser.h
 
 DISTFILES += \
     qml/components/HorizontalSeparator.qml \

@@ -13,7 +13,9 @@
 #include <QStringRef>
 #include <QByteArray>
 #include <QBuffer>
+
 #include "qzipreader_p.h"
+#include "xmlparser.h"
 
 class XMLReader : public QObject
 {
@@ -23,22 +25,10 @@ public:
     explicit XMLReader(QObject *parent = 0);
     ~XMLReader();
 
-    void parseXML(QXmlStreamReader &xml);
-    QMap<QString,QString> parseSeries(QXmlStreamReader& xml);
-    QMap<QString,QString> parseLanguages(QXmlStreamReader& xml);
-    QMap<QString,QString> parseEpisode(QXmlStreamReader& xml);
-    QMap<QString,QString> parseBanner(QXmlStreamReader& xml);
-    void addElementDataToMap(QXmlStreamReader& xml,
-                                 QMap<QString, QString>& map) const;
     void startRequest(QUrl url);
 
-    void getLanguages();
     void searchSeries(QString text);
     void getFullSeriesRecord(QString seriesid, QString method);
-
-    QList<QMap<QString,QString> > getSeries();
-    QList<QMap<QString,QString> > getEpisodes();
-    QList<QMap<QString,QString> > getBanners();
 
     bool getUpdateFlag();
     void setUpdateFlag(bool state);
@@ -55,17 +45,10 @@ public slots:
 
 private:
     QNetworkAccessManager* m_nam;
-    QList<QMap<QString,QString> > m_languages;
-    QList<QMap<QString,QString> > m_series;
-    QList<QMap<QString,QString> > m_episodes;
-    QList<QMap<QString,QString> > m_banners;
-    QString m_currentServerTime;
+    XMLParser* m_parser;
 
     bool m_fullRecord;
     bool m_update;
-
-    QString getLocale();
-
 };
 
 #endif // XMLREADER_H
