@@ -6,7 +6,11 @@ TodayListModel::TodayListModel(QObject *parent, DatabaseManager *dbmanager, XMLR
     m_dbmanager = dbmanager;
     m_reader = reader;
 
-    connect(this, SIGNAL(getStartPageSeries()), m_dbmanager, SLOT(getStartPageSeries()));
+    connect(this,
+            SIGNAL(getStartPageSeries()),
+            m_dbmanager,
+            SLOT(getStartPageSeries()));
+
     connect(m_dbmanager,
             SIGNAL(populateTodayModel(MapList)),
             this,
@@ -21,7 +25,6 @@ TodayListModel::~TodayListModel()
         delete series;
         series = 0;
     }
-    qDebug() << "destructing TodayListModel";
 }
 
 QQmlListProperty<SeriesData> TodayListModel::getTodayModel()

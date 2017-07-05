@@ -1,5 +1,4 @@
 #include "databasemanager.h"
-#include "qcoreapplication.h"
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -56,7 +55,7 @@ bool DatabaseManager::openDB()
     }
     
     // Find SQLite driver
-    m_db = QSqlDatabase::addDatabase("QSQLITE","databasemanager");
+    m_db = QSqlDatabase::addDatabase("QSQLITE", "databasemanager");
     m_db.setDatabaseName(dbpath);
     
     // Open databasee
@@ -433,9 +432,6 @@ bool DatabaseManager::insertEpisodes(QList<QMap<QString, QString> > episodes)
             query.bindValue(":watched", watched);
             ret = query.exec();
         }
-
-        // process pending events to not freeze the app
-        qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
     }
     
     commit();
@@ -474,9 +470,6 @@ bool DatabaseManager::insertBanners(QList<QMap<QString, QString> > banners, int 
             query.bindValue(":season", season);
             ret = query.exec();
         }
-        
-        // process pending events to not freeze the app
-        qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
     }
     
     commit();
@@ -690,6 +683,21 @@ void DatabaseManager::getStartPageSeries()
         }
     }
     emit populateTodayModel(series);
+}
+
+void DatabaseManager::getSeasons(int seriesId)
+{
+    QList<QVariantMap> seasons;
+
+    int seasonsCount = seasonCount(seriesId);
+    for (int i = 1; i <= seasonsCount; ++i) {
+        QVariantMap season;
+        season["banner"] = getSeasonBanner(seriesId, i);
+        season["watchedCount"] = watchedCountBySeason(seriesId, i);
+        season["totalCount"] = totalCountBySeason(seriesId, i);
+        seasons.append(season);
+    }
+    emit populateSeasonList(seasons);
 }
 
 QList<QMap<QString, QString> > DatabaseManager::getEpisodes(int seriesID, int seasonNumber)
