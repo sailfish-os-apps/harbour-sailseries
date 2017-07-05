@@ -158,27 +158,27 @@
 <context>
     <name>EpisodesPage</name>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="29"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="27"/>
         <source>I have seen these all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="41"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="39"/>
         <source>Episodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="92"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="90"/>
         <source>Season</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="99"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="97"/>
         <source>Episode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="149"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="148"/>
         <source>No episodes.</source>
         <translation type="unfinished"></translation>
     </message>
