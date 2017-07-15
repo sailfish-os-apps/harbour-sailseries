@@ -4,15 +4,15 @@ import Sailfish.Silica 1.0
 Page {
     id: episodespage
 
-    property string seriesID
+    property string seriesId
     property int seasonNumber
 
     Component.onCompleted: {
-        initialize(seriesID, seasonNumber)
+        initialize(seriesId, seasonNumber)
     }
 
     function initialize(seriesID, seasonNumber) {
-        engine.EpisodeListModel.getEpisodes(seriesID, seasonNumber)
+        engine.EpisodeListModel.getEpisodes(seriesId, seasonNumber)
     }
 
     SilicaListView {
@@ -26,8 +26,8 @@ Page {
             MenuItem {
                 text: qsTr("I have seen these all")
                 onClicked: {
-                    engine.EpisodeListModel.markSeasonWatched(seriesID, seasonNumber)
-                    engine.SeasonListModel.getSeasons(seriesID)
+                    engine.EpisodeListModel.markSeasonWatched(seriesId, seasonNumber)
+                    engine.SeasonListModel.getSeasons(seriesId)
                     // pageStack.pop() // keep or not?
                 }
             }
@@ -73,7 +73,7 @@ Page {
                                      firstAired: FirstAired,
                                      watched: Watched,
                                      episodeId: ID,
-                                     seriesId: seriesID })
+                                     seriesId: seriesId })
 
                 }
             }
@@ -87,14 +87,9 @@ Page {
 
                     Label {
                         id: seasonNumber
-                        text: qsTr("Season") + " " + SeasonNumber
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.secondaryColor
-                    }
-
-                    Label {
-                        id: episodeNumber
-                        text: " " + qsTr("Episode") + " " + EpisodeNumber
+                        text: SeasonNumber === 0
+                              ? qsTr("Specials: Episode %1").arg(EpisodeNumber)
+                              : qsTr("Season %1 Episode %2").arg(SeasonNumber).arg(EpisodeNumber)
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.secondaryColor
                     }
@@ -127,10 +122,9 @@ Page {
                 MouseArea {
                     id: clickarea
                     onClicked: {
-                        Watched === 0 ? Watched = 1 : Watched = 0
-                        engine.EpisodeListModel.toggleWatched(ID)
-                        engine.EpisodeListModel.getEpisodes(seriesID, seasonNumber)
-                        engine.SeasonListModel.getSeasons(seriesID)
+//                        Watched === 0 ? Watched = 1 : Watched = 0
+                        engine.EpisodeListModel.toggleWatched(ID, seriesId, SeasonNumber)
+                        engine.SeasonListModel.getSeasons(seriesId) // can maybe be removed also
 //                        engine.TodayModel.populateTodayModel()
                     }
                     anchors.fill: parent

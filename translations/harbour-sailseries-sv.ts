@@ -168,17 +168,17 @@
         <translation>Episoder</translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="90"/>
-        <source>Season</source>
-        <translation>Säsong</translation>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="91"/>
+        <source>Specials: Episode %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="97"/>
-        <source>Episode</source>
-        <translation>Episod</translation>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="92"/>
+        <source>Season %1 Episode %2</source>
+        <translation type="unfinished">Säsong %1 Episod %2</translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/EpisodesPage.qml" line="148"/>
+        <location filename="../src/qml/pages/EpisodesPage.qml" line="142"/>
         <source>No episodes.</source>
         <translation>Inga episoder.</translation>
     </message>
@@ -291,17 +291,22 @@
         <translation>Säsonger</translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/SeasonsPage.qml" line="80"/>
-        <source>Season</source>
-        <translation>Säsonger</translation>
+        <location filename="../src/qml/pages/SeasonsPage.qml" line="81"/>
+        <source>Specials</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/SeasonsPage.qml" line="93"/>
+        <location filename="../src/qml/pages/SeasonsPage.qml" line="81"/>
+        <source>Season %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/pages/SeasonsPage.qml" line="94"/>
         <source>Watched</source>
         <translation>Sett</translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/SeasonsPage.qml" line="135"/>
+        <location filename="../src/qml/pages/SeasonsPage.qml" line="136"/>
         <source>episodes</source>
         <translation>episoder</translation>
     </message>
