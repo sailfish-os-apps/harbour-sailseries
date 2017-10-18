@@ -249,7 +249,7 @@
         <translation>Meine Serien</translation>
     </message>
     <message>
-        <location filename="../src/qml/pages/MySeriesPage.qml" line="128"/>
+        <location filename="../src/qml/pages/MySeriesPage.qml" line="137"/>
         <source>Search for series first.</source>
         <translation>Suche zuerst nach einer Serie.</translation>
     </message>

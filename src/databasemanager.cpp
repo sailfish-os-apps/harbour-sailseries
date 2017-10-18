@@ -8,7 +8,6 @@ DatabaseManager::DatabaseManager(QObject *parent) :
 
 DatabaseManager::~DatabaseManager()
 {
-    qDebug() << "destructing dbmanager";
     close();
 }
 

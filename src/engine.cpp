@@ -42,8 +42,6 @@ Engine::~Engine()
 {
     delete m_reader;
     delete m_dbmanager;
-
-    qDebug() << "destructing Engine";
 }
 
 SeriesListModel* Engine::getSeriesListModel() { return m_seriesListModel; }
